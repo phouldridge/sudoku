@@ -1,0 +1,110 @@
+.sudoku-grid {
+  height: 450px;
+  width: 450px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.sudoku-row {
+  display: flex;
+}
+
+.sudoku-cell {
+  height: 50px;
+  width: 50px;
+  background-color: snow;
+  color: #5555ff;
+  cursor: pointer;
+  box-sizing: border-box;
+  user-select: none;
+  border: black;
+  border-style: solid;
+  position: relative;
+}
+
+.sudoku-value {
+  padding: 5px;
+  left: 50%;
+  top: 60%;
+}
+
+.selected {
+  background-color: #ffffa0;
+}
+
+.sudoku-center {
+  font-size: 12px;
+  position: absolute;
+  display: block;
+  left: 42%;
+  top: 32%;
+}
+
+.sudoku-corner {
+  font-size: 12px;
+  position: absolute;
+  display: block;
+}
+
+.corner-ul {
+  left: 3%;
+  top: 0%;
+}
+.corner-ur {
+  right: 3%;
+  top: 0%;
+}
+.corner-ll {
+  left: 3%;
+  bottom: 3%;
+}
+.corner-lr {
+  right: 3%;
+  bottom: 3%;
+}
+.corner-top {
+  left: 42%;
+  top: 0%;
+}
+.corner-r {
+  right: 3%;
+  top: 32%;
+}
+.corner-bottom {
+  left: 42%;
+  bottom: 3%;
+}
+.corner-l {
+  left: 3%;
+  top: 32%;
+}
+
+/* top, right, bottom, left */
+.tl {
+  border-width: 2px 1px 1px 2px;
+}
+.tc {
+  border-width: 2px 0px 1px 0px;
+}
+.tr {
+  border-width: 2px 2px 1px 1px;
+}
+.cl {
+  border-width: 0px 1px 0px 2px;
+}
+.cc {
+  border-width: 0px;
+}
+.cr {
+  border-width: 0px 2px 0px 1px;
+}
+.bl {
+  border-width: 1px 1px 2px 2px;
+}
+.bc {
+  border-width: 1px 0px 2px 0px;
+}
+.br {
+  border-width: 1px 2px 2px 1px;
+}

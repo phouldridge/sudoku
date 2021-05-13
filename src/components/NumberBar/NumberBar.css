@@ -1,0 +1,26 @@
+.number-bar {
+  display: flex;
+  color: black;
+  margin-bottom: 4px;
+  user-select: none;
+}
+
+.number {
+  width: 45px;
+  height: 45px;
+  box-sizing: border-box;
+  position: relative;
+}
+.number-normal {
+  font-size: 2em;
+}
+.number-corner {
+  font-size: 12px;
+  position: absolute;
+  display: block;
+  left: 3%;
+  top: 0%;
+}
+.number-center {
+  font-size: 12px;
+}
