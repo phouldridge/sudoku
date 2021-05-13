@@ -1,6 +1,6 @@
 .sudoku-grid {
-  height: 450px;
-  width: 450px;
+  height: 405px;
+  width: 405px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -11,8 +11,8 @@
 }
 
 .sudoku-cell {
-  height: 50px;
-  width: 50px;
+  height: 45px;
+  width: 45px;
   background-color: snow;
   color: #5555ff;
   cursor: pointer;
