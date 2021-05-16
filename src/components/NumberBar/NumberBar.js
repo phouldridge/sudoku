@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import Button from 'components/Button'
 import { updateValues } from 'store/sudoku'
-import { getPencilMode, getPencilModes, setPencilMode, colors } from 'store/ui'
+import { getPencilMode, colors } from 'store/ui'
 
 import './NumberBar.css'
 import _ from 'underscore'
@@ -17,6 +17,7 @@ const NumberBar = () => {
         const colorStyle = { backgroundColor: colors[index - 1] }
         return (
           <Button
+            key={index}
             className={'number'}
             style={mode === 'color' ? colorStyle : {}}
             lable={mode !== 'color' && <span className={`number-${mode}`}>{index}</span>}

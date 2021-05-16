@@ -51,6 +51,7 @@ export const getCellColor = (colorMark, selected) => {
     : 'snow'
 }
 export const colors = [
+  '#0074D9AA', //blue
   '#7FDBFFAA', //aqua
   '#39CCCCAA', //teal
   '#3D9970AA', //olive
@@ -68,7 +69,7 @@ export const epics = combineEpics()
 const initialState = {
   selecting: false,
   selected: [],
-  pencilMode: { normal: true, corner: false, center: false, color: false }
+  pencilMode: { normal: true, corner: false, center: false, color: false, show: false }
 }
 export const reducer = (state = initialState, { type, value, index, mode }) => {
   switch (type) {

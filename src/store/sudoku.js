@@ -1,7 +1,7 @@
 import { combineEpics, ofType } from 'redux-observable'
-import { map, mergeMap } from 'rxjs/operators'
+import { map, mergeMap, filter } from 'rxjs/operators'
 import _ from 'underscore'
-import { getSelected, getPencilMode } from 'store/ui'
+import { getSelected, getPencilMode, selectCell, clearSelected } from 'store/ui'
 
 // constants
 export const LOAD_SUDOKU = 'sudoku/LOAD_SUDOKU'
@@ -22,33 +22,60 @@ const setColor = (index, value) => ({ type: SET_COLOR, index, value })
 
 // selector
 export const getCellData = (state, index) => (state.sudoku[index] ? state.sudoku[index] : 0)
-export const getRow = (index, state) => {
-  const i = index * 9
-  return state.sudoku.start.slice(i, i + 9)
-}
+export const getCellsForValues = (state, value) =>
+  _.chain(state.sudoku)
+    .filter((cell) => cell.given === value || cell.value === value)
+    .map((cell) => cell.index)
+    .value()
 
 // epics
-export const epics = combineEpics((action$, state$) =>
-  action$.pipe(
-    ofType(UPDATE_VALUES),
-    map(({ value }) => ({
-      selected: getSelected(state$.value),
-      mode: getPencilMode(state$.value),
-      value
-    })),
-    mergeMap(({ selected, mode, value }) => {
-      switch (mode) {
-        case 'normal':
-          return _.map(Object.keys(selected), (index) => setValue(index, value))
-        case 'corner':
-          return _.map(Object.keys(selected), (index) => setCorner(index, value))
-        case 'center':
-          return _.map(Object.keys(selected), (index) => setCenter(index, value))
-        case 'color':
-          return _.map(Object.keys(selected), (index) => setColor(index, value))
-      }
-    })
-  )
+export const epics = combineEpics(
+  (action$, state$) =>
+    action$.pipe(
+      ofType(UPDATE_VALUES),
+      map(({ value }) => ({
+        mode: getPencilMode(state$.value),
+        value
+      })),
+      filter(({ mode, value }) => mode === 'show'),
+      mergeMap(({ value }) => {
+        const toSelect = getCellsForValues(state$.value, value)
+        const actions = [
+          clearSelected(),
+          ...(value !== undefined ? _.map(toSelect, (index) => selectCell(index, value)) : [])
+        ]
+        return actions
+      })
+    ),
+
+  (action$, state$) =>
+    action$.pipe(
+      ofType(UPDATE_VALUES),
+      map(({ value }) => ({
+        mode: getPencilMode(state$.value),
+        value
+      })),
+      filter(({ mode }) => mode !== 'show'),
+      map(({ mode, value }) => ({
+        selected: getSelected(state$.value),
+        mode,
+        value
+      })),
+      mergeMap(({ selected, mode, value }) => {
+        switch (mode) {
+          case 'normal':
+            return _.map(Object.keys(selected), (index) => setValue(index, value))
+          case 'corner':
+            return _.map(Object.keys(selected), (index) => setCorner(index, value))
+          case 'center':
+            return _.map(Object.keys(selected), (index) => setCenter(index, value))
+          case 'color':
+            return _.map(Object.keys(selected), (index) => setColor(index, value))
+          default:
+            return
+        }
+      })
+    )
 )
 
 // reducer

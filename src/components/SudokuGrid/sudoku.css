@@ -1,18 +1,24 @@
 .sudoku-grid {
-  height: 405px;
-  width: 405px;
+  height: var(--grid);
+  width: var(--grid);
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
 }
 
 .sudoku-row {
   display: flex;
+  flex-direction: row;
 }
 
 .sudoku-cell {
-  height: 45px;
-  width: 45px;
+  height: calc(var(--grid) / 9);
+  width: calc(var(--grid) / 9);
+  /* height: 100%; */
+  /* width: 100%; */
   background-color: snow;
   color: #5555ff;
   cursor: pointer;
@@ -21,10 +27,13 @@
   border: black;
   border-style: solid;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .sudoku-value {
-  padding: 5px;
   left: 50%;
   top: 60%;
 }
@@ -34,7 +43,7 @@
 }
 
 .sudoku-center {
-  font-size: 12px;
+  font-size: 0.65rem;
   position: absolute;
   display: block;
   left: 42%;
@@ -42,7 +51,7 @@
 }
 
 .sudoku-corner {
-  font-size: 12px;
+  font-size: 0.65rem;
   position: absolute;
   display: block;
 }

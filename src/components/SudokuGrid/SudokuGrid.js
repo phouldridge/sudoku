@@ -25,9 +25,10 @@ const SudokuGrid = () => {
 
   const handleEvent = (event) => {
     const clientRect = divRef.current.getBoundingClientRect()
+    const gridSize = clientRect.width / 9
     const cellIndex =
-      Math.trunc((event.clientY - clientRect.y) / 50) * 9 +
-      Math.trunc((event.clientX - clientRect.x) / 50)
+      Math.trunc((event.clientY - clientRect.y) / gridSize) * 9 +
+      Math.trunc((event.clientX - clientRect.x) / gridSize)
     switch (event.type) {
       case 'mousedown':
         if (!event.shiftKey) {
