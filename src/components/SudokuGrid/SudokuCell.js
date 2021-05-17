@@ -33,12 +33,12 @@ const SudokuCell = ({ id }) => {
 }
 const cornerClass = [
   'corner-ul',
-  'corner-ur',
-  'corner-lr',
-  'corner-ll',
   'corner-top',
+  'corner-ur',
   'corner-r',
+  'corner-lr',
   'corner-bottom',
+  'corner-ll',
   'corner-l'
 ]
 const boxPosition = [

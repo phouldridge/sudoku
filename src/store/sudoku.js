@@ -84,10 +84,12 @@ const setPencilMarks = (state, mode, index, value) => ({
   [index]: {
     ...state[index],
     [mode]: state[index][mode]
-      ? _.chain([...state[index][mode], value])
-          .unique()
-          .first(8)
-          .value()
+      ? _.indexOf(state[index][mode], value) === -1
+        ? _.chain([...state[index][mode], value])
+            .first(8)
+            .sort()
+            .value()
+        : _.without(state[index][mode], value)
       : [value]
   }
 })

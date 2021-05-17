@@ -6,8 +6,8 @@
 }
 
 .number {
-  height: calc((var(--grid) - 25px) / 9);
-  width: calc((var(--grid) - 25px) / 9);
+  height: calc((var(--grid) - 30px) / 9);
+  width: calc((var(--grid) - 30px) / 9);
   box-sizing: border-box;
   position: relative;
 }

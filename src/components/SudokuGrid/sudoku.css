@@ -6,7 +6,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px solid black;
 }
 
 .sudoku-row {
@@ -17,8 +16,6 @@
 .sudoku-cell {
   height: calc(var(--grid) / 9);
   width: calc(var(--grid) / 9);
-  /* height: 100%; */
-  /* width: 100%; */
   background-color: snow;
   color: #5555ff;
   cursor: pointer;
@@ -44,10 +41,11 @@
 
 .sudoku-center {
   font-size: 0.65rem;
-  position: absolute;
+  position: relative;
   display: block;
-  left: 42%;
-  top: 32%;
+  top: 25%;
+  align-items: center;
+  justify-content: center;
 }
 
 .sudoku-corner {
