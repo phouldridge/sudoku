@@ -21,6 +21,8 @@ const setCenter = (index, value) => ({ type: SET_CENTER, index, value })
 const setColor = (index, value) => ({ type: SET_COLOR, index, value })
 
 // selector
+export const getCellValue = (state, index) =>
+  state.sudoku[index] ? state.sudoku[index].given || state.sudoku[index].value : 0
 export const getCellData = (state, index) => (state.sudoku[index] ? state.sudoku[index] : 0)
 export const getCellsForValues = (state, value) =>
   _.chain(state.sudoku)
@@ -47,6 +49,28 @@ export const epics = combineEpics(
         return actions
       })
     ),
+  (action$, state$) =>
+    action$.pipe(
+      ofType(UPDATE_VALUES),
+      map(({ value }) => ({
+        mode: getPencilMode(state$.value),
+        value
+      })),
+      filter(({ mode, value }) => mode === 'find'),
+      mergeMap(({ value }) => {
+        const toSelect = _.chain(_.range(0, 9))
+          .map((box) => getPossibleCells(state$.value, box, value))
+          // .filter((ids) => ids.length <= 2)
+          .flatten()
+          .unique()
+          .value()
+        const actions = [
+          clearSelected(),
+          ...(value !== undefined ? _.map(toSelect, (index) => selectCell(index, value)) : [])
+        ]
+        return actions
+      })
+    ),
 
   (action$, state$) =>
     action$.pipe(
@@ -55,7 +79,7 @@ export const epics = combineEpics(
         mode: getPencilMode(state$.value),
         value
       })),
-      filter(({ mode }) => mode !== 'show'),
+      filter(({ mode }) => mode !== 'show' && mode !== 'find'),
       map(({ mode, value }) => ({
         selected: getSelected(state$.value),
         mode,
@@ -122,6 +146,43 @@ export const reducer = (state = initialState, { type, index, value, values }) =>
     default:
       return state
   }
+}
+
+// cell utilities
+const boxStarts = [0, 3, 6, 27, 30, 33, 54, 57, 60]
+
+const getColumn = (cellid) => cellid % 9
+const getRow = (cellid) => Math.floor(cellid / 9)
+const getBox = (cellid) => Math.floor(cellid / 27) * 3 + Math.floor(getColumn(cellid) / 3)
+
+const getColumnIndexes = (column) => _.range(column, 81 + column, 9)
+const getRowIndexes = (row) => _.range(row * 9, row * 9 + 9)
+const getBoxIndexes = (boxid) =>
+  _.chain(_.range(boxStarts[boxid], boxStarts[boxid] + 3))
+    .map((i) => [i, i + 9, i + 18])
+    .flatten()
+    .value()
+
+const getPossibleCells = (state, box, value) => {
+  const boxIndexes = getBoxIndexes(box)
+  if (_.filter(boxIndexes, (id) => getCellValue(state, id) === value).length === 0) {
+    return _.chain(boxIndexes)
+      .filter((id) => {
+        const value = getCellValue(state, id)
+        return value === 0 || value === undefined
+      })
+      .filter((id) => {
+        const values = _.chain(_.union(getRowIndexes(getRow(id)), getColumnIndexes(getColumn(id))))
+          .tap((v) => id === 17 && console.log(' *** values:', id, v))
+          .map((id) => getCellValue(state, id) === value)
+          .value()
+
+        id === 17 && console.log(' *** values:', id, getColumnIndexes(getColumn(id)))
+        return !_.contains(values, true)
+      })
+      .value()
+  }
+  return []
 }
 
 export default reducer

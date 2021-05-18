@@ -69,7 +69,7 @@ export const epics = combineEpics()
 const initialState = {
   selecting: false,
   selected: [],
-  pencilMode: { normal: true, corner: false, center: false, color: false, show: false }
+  pencilMode: { normal: true, corner: false, center: false, color: false, show: false, find: false }
 }
 export const reducer = (state = initialState, { type, value, index, mode }) => {
   switch (type) {
