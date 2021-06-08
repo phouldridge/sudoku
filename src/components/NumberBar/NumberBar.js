@@ -20,7 +20,7 @@ const NumberBar = () => {
             key={index}
             className={'number'}
             style={mode === 'color' ? colorStyle : {}}
-            lable={mode !== 'color' && <span className={`number-${mode}`}>{index}</span>}
+            label={mode !== 'color' && <span className={`number-${mode}`}>{index}</span>}
             onClick={(event) => handleClick(index)}
           />
         )

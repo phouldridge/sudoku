@@ -2,21 +2,21 @@ import Button from 'components/Button'
 import _ from 'underscore'
 
 const ButtonGroup = ({ buttonState, onClick }) => {
-  const clickHandler = (lable) => {
+  const clickHandler = (label) => {
     const newState = _.reduce(
       Object.keys(buttonState),
-      (state, button) => ({ ...state, [button]: button === lable }),
+      (state, button) => ({ ...state, [button]: button === label }),
       {}
     )
     onClick(newState)
   }
-  return _.map(Object.keys(buttonState), (lable) => (
+  return _.map(Object.keys(buttonState), (label) => (
     <Button
-      key={`gb-${lable}`}
-      lable={lable}
+      key={`gb-${label}`}
+      label={label}
       toggle={true}
-      value={buttonState[lable]}
-      onClick={() => clickHandler(lable)}
+      value={buttonState[label]}
+      onClick={() => clickHandler(label)}
     />
   ))
 }

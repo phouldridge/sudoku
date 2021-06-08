@@ -19,13 +19,15 @@ export const isSelecting = (state, index) => state.ui.selecting
 export const isCellSelected = (state, index) => state.ui.selected[index]
 export const getSelected = (state) => state.ui.selected
 export const getPencilModes = (state) => state.ui.pencilMode
-export const getPencilMode = (state) => {
+export const getPencilMode = (state) => getMode(state, 'pencilMode') || 'normal'
+
+const getMode = (state, type) => {
   const mode = _.reduce(
-    Object.keys(state.ui.pencilMode),
-    (mode, index) => (state.ui.pencilMode[index] ? index : mode),
+    Object.keys(state.ui[type]),
+    (mode, index) => (state.ui[type][index] ? index : mode),
     undefined
   )
-  return mode || 'normal'
+  return mode
 }
 
 export const fromColors = (added, base) => {
@@ -69,8 +71,16 @@ export const epics = combineEpics()
 const initialState = {
   selecting: false,
   selected: [],
-  pencilMode: { normal: true, corner: false, center: false, color: false, show: false, find: false }
+  pencilMode: {
+    normal: true,
+    corner: false,
+    center: false,
+    color: false,
+    show: false,
+    find: false
+  }
 }
+
 export const reducer = (state = initialState, { type, value, index, mode }) => {
   switch (type) {
     case SET_SELECTION_MODE:

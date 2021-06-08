@@ -2,19 +2,19 @@ import classNames from 'classnames'
 
 import './Button.css'
 
-export const Button = ({ className = '', style = {}, lable, onClick, value, toggle = false }) => {
+export const Button = ({ className = '', style = {}, label, onClick, value, toggle = false }) => {
   const buttonClassNames = toggle
     ? classNames(`button ${className}`, { 'button-on': value })
     : `button ${className}`
   return (
     <button
-      key={`${lable}-button`}
+      key={`${label}-button`}
       className={buttonClassNames}
       style={style}
       type="button"
       onClick={(event) => onClick(event)}
     >
-      {lable}
+      {label}
     </button>
   )
 }
